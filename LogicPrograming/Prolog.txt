@@ -1,0 +1,65 @@
+append([],[H|T],[H|T]).
+append([H|T],[],[H|T]).
+append([H1|T1],T,[H1|L]):-append(T1,T,L).
+
+member(X,[H1|T]):- X is H1.
+member(X,[H1|T]):- member(X,T).
+
+length([],0).
+length([H|T], L):- length(T,X),L is X+1.
+
+reverse([],[]).
+reverse([H|T], Y):-reverse(T,Z),append(Z,[H],Y).
+
+check(X,[A,B|T]):-A<X,X<B.
+check(X,[H|T]):-check(X,T).
+
+p1([H|T],Y):-check(H,Y).
+p1([H|T],Y):-p1(T,Y).
+
+p2([H|[]],Y):-check(H,Y).
+p2([H|T],Y):-check(H,Y),p2(T,Y).
+
+check2(X,[]).
+check2(X,[H|[]]).
+check2(X,[A,B|T]):-A<X,X<B,check2(X,[B|T]).
+
+p3([H|T],Y):-check2(H,Y).
+p3([H|T],Y):-p3(T,Y).
+
+
+
+
+
+check(N,[A,B|X]):-N>A,N<B,write(A),write("<="),write(N),write("<="),write(B),nl.
+check(N,[A,B|X]):-N<A,N>B,write(B),write("<="),write(N),write("<="),write(A),nl.
+check(N,[A,B|X]):-check(N,[B|X]).
+
+%?-check(5, [1,2,5,7,4]).
+
+p1([A|X],Y):-check(A,Y).
+p1([A|X],Y):-p1(X,Y).
+
+%?-p1([1,2,3],[1,2,3,9,2]).
+
+p2([],Y).
+p2([A|X],Y):-check(A,Y),p2(X,Y).
+
+%?-p2([1,2,3],[1,2,3,9,0]).
+
+check2(N,[]).
+check2(N,[A|[]]).
+check2(N,[A,B|X]):-N>A,N<B,check2(N,[B|X]),write(A),write("<="),write(N),write("<="),write(B),nl.
+check2(N,[A,B|X]):-N<A,N>B,check2(N,[B|X]),write(B),write("<="),write(N),write("<="),write(A),nl.
+
+%?-check2(4,[1,6,3]).
+
+p3([A|X],Y):-check2(A,Y).
+p3([A|X],Y):-p3(X,Y).
+
+%?-p3([1,2,3],[1,5,0]).
+
+p4([],Y).
+p4([A|X],Y):-check2(A,Y),p4(X,Y).
+
+?-p4([1,2,3],[0,5,0,10,-9]).
