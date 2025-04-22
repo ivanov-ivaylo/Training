@@ -1,1 +1,1 @@
-# Training - Doc
+# Training - Docs
